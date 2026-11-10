@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulse Dashboard — Mockup</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f4f5f7;
+    color: #23202b;
+  }
+  a { color: #3457d5; }
+  a:hover { color: #24409e; }
+
+  .app { display: flex; min-height: 100vh; background: #f4f5f7; }
+
+  /* Sidebar */
+  .sidebar { width: 210px; flex-shrink: 0; background: #ffffff; border-right: 1px solid #ececf1; padding: 24px 16px; }
+  .logo-mark { width: 72px; height: 72px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; }
+  .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 10px; color: #3a3846; font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .nav-item svg { flex-shrink: 0; }
+  .nav-item.active { background: #1c1b26; color: #ffffff; }
+  .nav-item.active svg { stroke: #ffffff; }
+  .nav-item:not(.active) svg { stroke: #5b5967; }
+
+  /* Header */
+  .main { flex: 1; min-width: 0; }
+  .topbar { display: flex; align-items: stretch; height: 56px; }
+  .brand { width: 220px; flex-shrink: 0; display: flex; align-items: center; padding-left: 24px; background: #ffffff; }
+  .brand-word { font-size: 22px; font-weight: 800; color: #241a45; letter-spacing: -0.5px; }
+  .banner {
+    flex: 1;
+    display: flex; align-items: center; justify-content: flex-end; gap: 14px;
+    padding: 0 24px;
+    background-color: #1fb2e8;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.16) 0 9px, rgba(255,255,255,0) 9px 20px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,0.12) 0 9px, rgba(255,255,255,0) 9px 20px),
+      linear-gradient(100deg, #17a6da, #33c2f2 60%, #1fb2e8);
+    clip-path: polygon(28px 0, 100% 0, 100% 100%, 0 100%);
+    margin-left: -28px;
+  }
+  .search-box input {
+    width: 300px; height: 36px; border-radius: 8px; border: none; padding: 0 14px;
+    font-size: 13px; color: #4b4a55; background: #f4f6f8;
+  }
+  .search-box input::placeholder { color: #9a98a3; }
+  .icon-btn { width: 34px; height: 34px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; position: relative; flex-shrink: 0; }
+  .icon-btn .badge {
+    position: absolute; top: -5px; right: -5px; background: #ef5b3a; color: #fff; font-size: 10px; font-weight: 700;
+    width: 17px; height: 17px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  }
+  .avatar-round { width: 34px; height: 34px; border-radius: 50%; background: #d9b48f; display: flex; align-items: center; justify-content: center; color: #6b4a2b; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+
+  /* Page head */
+  .page-head { padding: 22px 32px 0; }
+  .crumbs { display: flex; align-items: baseline; gap: 8px; }
+  .crumbs h1 { margin: 0; font-size: 21px; font-weight: 800; color: #241a45; }
+  .crumbs .dots { color: #b3b1bc; font-weight: 700; letter-spacing: 1px; }
+  .greeting { margin: 4px 0 0; font-size: 14px; color: #e08a3c; font-weight: 500; }
+
+  /* Tabs */
+  .tabbar { display: flex; gap: 6px; padding: 18px 32px 0; }
+  .tab-btn { display: flex; align-items: center; gap: 9px; padding: 11px 22px; border-radius: 10px 10px 0 0; font-size: 14px; font-weight: 700; color: #6b6980; background: #e9e8ee; cursor: pointer; border: none; font-family: inherit; }
+  .tab-btn-active { background: #ffffff; color: #241a45; box-shadow: 0 -3px 0 #1c1b26 inset; }
+  .tab-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .tab-dot-google { background: #4285f4; }
+  .tab-dot-ms { background: #34a853; }
+  .tab-count { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 999px; background: #f4f3f7; color: #9a98a3; }
+  .tab-btn-active .tab-count { background: #f0eefc; color: #6b6980; }
+
+  /* KPI tiles */
+  .tiles { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; padding: 16px 32px 0; }
+  .tile { background: #fff; border: 1px solid #e9e9ef; border-radius: 0 10px 10px 10px; padding: 15px 16px; }
+  .tile-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; color: #8b8996; margin-bottom: 9px; }
+  .tile-value { font-size: 23px; font-weight: 800; color: #241a45; line-height: 1; }
+  .tile-value.kpi-good { color: #15803d; }
+  .tile-value.kpi-warn { color: #b45309; }
+  .tile-value.kpi-bad { color: #b91c1c; }
+  .tile-sub { margin-top: 7px; font-size: 11.5px; color: #8b8996; }
+
+  /* Controls row */
+  .controls { display: flex; align-items: center; gap: 12px; padding: 18px 32px 0; flex-wrap: wrap; }
+  .controls .search-box input { width: 220px; background: #ffffff; border: 1px solid #dedde5; }
+  .am-select { height: 36px; border-radius: 8px; border: 1px solid #dedde5; background: #ffffff; padding: 0 12px; font-size: 13px; color: #3a3846; font-family: inherit; font-weight: 600; cursor: pointer; }
+  .chip-group { display: flex; align-items: center; gap: 6px; background: #ffffff; border: 1px solid #dedde5; border-radius: 9px; padding: 4px; }
+  .chip { padding: 6px 12px; border-radius: 6px; font-size: 12.5px; font-weight: 600; color: #55535f; cursor: pointer; border: none; background: transparent; font-family: inherit; }
+  .chip.is-active { background: #1c1b26; color: #ffffff; }
+  .spacer { flex: 1; }
+  .as-of { font-size: 12px; color: #8b8996; max-width: 260px; text-align: right; }
+  .info-dot { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; background: #e5e4ea; color: #6b6980; font-size: 10px; font-weight: 700; margin-left: 5px; cursor: help; vertical-align: middle; }
+
+  /* Table card */
+  .table-card { margin: 18px 32px 32px; background: #fff; border: 1px solid #e9e9ef; border-radius: 10px; overflow: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 1500px; }
+  thead th { background: #fafafc; }
+  th, td { padding: 0; }
+  .grp-head { text-align: center; padding: 10px 8px 8px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; color: #4b4a55; border-bottom: 2px solid #eceaf4; }
+  .col-head { text-align: left; padding: 8px 14px 10px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; color: #8b8996; border-bottom: 1px solid #eceaf4; white-space: nowrap; }
+  .col-head.center { text-align: center; }
+  .th-sort { cursor: pointer; user-select: none; }
+  .th-sort:hover { color: #3a3846; }
+  .sort-ind { display: inline-flex; flex-direction: column; margin-left: 5px; gap: 1px; vertical-align: middle; }
+  .sort-tri-up, .sort-tri-down { width: 0; height: 0; border-left: 3px solid transparent; border-right: 3px solid transparent; }
+  .sort-tri-up { border-bottom: 4px solid #c7c5d0; }
+  .sort-tri-down { border-top: 4px solid #c7c5d0; }
+  .sort-tri-up.active { border-bottom-color: #241a45; }
+  .sort-tri-down.active { border-top-color: #241a45; }
+
+  tbody tr { border-bottom: 1px solid #f0eff5; }
+  tbody tr:nth-child(even) { background: #fbfbfd; }
+  td { padding: 12px 12px; font-size: 13px; vertical-align: middle; }
+  td.center { text-align: center; }
+  .acct-name { color: #3457d5; font-weight: 600; text-decoration: underline; cursor: default; }
+  .acct-code { display: block; font-size: 11.5px; color: #9a98a3; font-weight: 500; margin-top: 2px; text-decoration: none; }
+
+  .am-chip { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: #3a3846; white-space: nowrap; }
+  .am-avatar { width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 10.5px; font-weight: 700; flex-shrink: 0; }
+
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .pill-good { background: #dcfce7; color: #15803d; }
+  .pill-warn { background: #fef3c7; color: #b45309; }
+  .pill-bad { background: #fee2e2; color: #b91c1c; }
+  .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .pill-type { display: inline-flex; padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .pill-type-leadgen { background: #ede9fe; color: #6d28d9; }
+  .pill-type-ecomm { background: #e0f2fe; color: #0369a1; }
+
+  .crm-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; background: #f4f3f7; color: #4b4a55; font-size: 11.5px; font-weight: 600; white-space: nowrap; }
+  .crm-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .crm-dot-none { background: #b3b1bc; }
+  .crm-dot-external { background: #2563eb; }
+  .crm-dot-leadpulse { background: #0891b2; }
+  .crm-dot-pipedrive { background: #16a34a; }
+
+  .metric-cell.center { text-align: center; }
+  .metric-main { font-weight: 700; color: #241a45; font-size: 13px; }
+  .metric-sub { font-size: 11.5px; color: #9a98a3; margin-top: 2px; }
+  .bar-track { width: 92px; height: 5px; border-radius: 3px; background: #edecf3; margin: 6px auto 0; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; }
+  .bar-fill.bar-good { background: #22c55e; }
+  .bar-fill.bar-warn { background: #f59e0b; }
+  .bar-fill.bar-bad { background: #ef4444; }
+  .bar-pct { font-size: 11px; color: #9a98a3; margin-top: 4px; }
+
+  .diff-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 700; margin-top: 5px; }
+  .tri-up, .tri-down { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; }
+  .tri-up { border-bottom: 5px solid currentColor; }
+  .tri-down { border-top: 5px solid currentColor; }
+
+  .table-foot { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-top: 1px solid #f0eff5; font-size: 12px; color: #9a98a3; }
+  .empty-row td { text-align: center; padding: 40px; color: #9a98a3; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="sidebar">
+    <div class="logo-mark">
+      <svg width="46" height="40" viewBox="0 0 46 40" fill="none">
+        <path d="M4 36 L2 12 L13 20 L23 4 L33 20 L44 12 L42 36 Z" fill="#1c1b26"/>
+      </svg>
+    </div>
+    <div class="nav-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5b5967" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item active">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l3 8 4-16 3 8h6"/></svg>
+      Pulse
+    </div>
+    <div class="nav-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5b5967" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+      Team Tasks
+    </div>
+    <div class="nav-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5b5967" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+      Clients
+    </div>
+    <div class="nav-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5b5967" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M5 21c1-4 4-6 7-6s6 2 7 6"/></svg>
+      Contacts
+    </div>
+    <div class="nav-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5b5967" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="1"/><path d="M8 21h8M12 17v4"/></svg>
+      Billing
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="brand"><span class="brand-word">ilulalab</span></div>
+      <div class="banner">
+        <div class="search-box">
+          <input type="text" placeholder="Search" />
+        </div>
+        <div class="icon-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4b4a55" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+          <span class="badge">18</span>
+        </div>
+        <div class="icon-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4b4a55" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </div>
+        <div class="icon-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4b4a55" stroke-width="2"><circle cx="6" cy="6" r="1.6"/><circle cx="12" cy="6" r="1.6"/><circle cx="18" cy="6" r="1.6"/><circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/><circle cx="6" cy="18" r="1.6"/><circle cx="12" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/></svg>
+        </div>
+        <div class="avatar-round">S</div>
+      </div>
+    </div>
+
+    <div class="page-head">
+      <div class="crumbs">
+        <h1>Pulse Dashboard</h1>
+        <span class="dots">...</span>
+      </div>
+      <p class="greeting">Howzit Steve — here's your portfolio at a glance</p>
+    </div>
+
+    <div class="tabbar" id="tabbar"></div>
+    <div class="tiles" id="tiles"></div>
+
+    <div class="controls">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search accounts..." />
+      </div>
+      <select class="am-select" id="amSelect"></select>
+      <div class="chip-group" id="healthChips"></div>
+      <div class="chip-group" id="dateChips"></div>
+      <div class="spacer"></div>
+      <div class="as-of">Performance &amp; calls reflect the date range above · Budget always shows fixed MTD</div>
+    </div>
+
+    <div class="table-card">
+      <table>
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="table-foot">
+        <span>CPL/ROAS/answer-rate bands are set per account · sample data for layout review</span>
+        <span id="footCount"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var ACCOUNTS_RAW = [
+  { name: 'Blue Harbour Hotels', code: 'BLH001', type: 'ecomm', crm: 'pipedrive', am: 'Amy Ndlovu',
+    google: { active: true, spend: 41000, budget: 48000, revenue: 188600, roas: 4.6, roasBench: 4.5, calls: 64, answerRate: 91 },
+    ms:     { active: true, spend: 8600,  budget: 10000, revenue: 22400,  roas: 2.6, roasBench: 3.5, calls: 18, answerRate: 68 } },
+  { name: 'Nova Fitness Group', code: 'NFG002', type: 'leadgen', crm: 'leadpulse', am: 'Kabelo Mokoena',
+    google: { active: true, spend: 52000, budget: 60000, cpl: 95,  cplBench: 110, conversions: 540, calls: 210, answerRate: 88 },
+    ms:     { active: false } },
+  { name: 'Kaleidoscope Décor', code: 'KLD003', type: 'ecomm', crm: 'none', am: 'Sarah Thompson',
+    google: { active: true, spend: 61000, budget: 50000, revenue: 244000, roas: 4.0, roasBench: 4.2, calls: 40, answerRate: 79 },
+    ms:     { active: true, spend: 9000,  budget: 12000, revenue: 34200,  roas: 3.8, roasBench: 3.6, calls: 12, answerRate: 82 } },
+  { name: 'Bergview Motors', code: 'BGM004', type: 'leadgen', crm: 'external', am: 'Liam Petersen',
+    google: { active: true, spend: 28000, budget: 35000, cpl: 120, cplBench: 125, conversions: 230, calls: 95, answerRate: 93 },
+    ms:     { active: true, spend: 6500,  budget: 8000,  cpl: 205, cplBench: 190, conversions: 32,  calls: 22, answerRate: 71 } },
+  { name: 'Solstice Skincare', code: 'SLS005', type: 'ecomm', crm: 'pipedrive', am: 'Amy Ndlovu',
+    google: { active: true, spend: 44000, budget: 45000, revenue: 316800, roas: 7.2, roasBench: 6.0, calls: 55, answerRate: 95 },
+    ms:     { active: true, spend: 15200, budget: 16000, revenue: 83600,  roas: 5.5, roasBench: 5.0, calls: 30, answerRate: 90 } },
+  { name: 'Harborline Logistics', code: 'HBL006', type: 'leadgen', crm: 'none', am: 'Kabelo Mokoena',
+    google: { active: true, spend: 39000, budget: 40000, cpl: 310, cplBench: 250, conversions: 125, calls: 150, answerRate: 70 },
+    ms:     { active: false } },
+  { name: 'Cape Grove Wines', code: 'CGW007', type: 'ecomm', crm: 'leadpulse', am: 'Sarah Thompson',
+    google: { active: true, spend: 22000, budget: 25000, revenue: 90200, roas: 4.1, roasBench: 4.0, calls: 28, answerRate: 86 },
+    ms:     { active: true, spend: 6100,  budget: 6000,  revenue: 20100, roas: 3.3, roasBench: 3.7, calls: 10, answerRate: 77 } },
+  { name: 'Meridian Legal Partners', code: 'MLP008', type: 'leadgen', crm: 'external', am: 'Liam Petersen',
+    google: { active: true, spend: 18000, budget: 20000, cpl: 410, cplBench: 380, conversions: 44, calls: 120, answerRate: 81 },
+    ms:     { active: true, spend: 4200,  budget: 5000,  cpl: 520, cplBench: 480, conversions: 8,  calls: 35, answerRate: 73 } },
+  { name: 'Riverside Dental Studio', code: 'RDS009', type: 'leadgen', crm: 'pipedrive', am: 'Amy Ndlovu',
+    google: { active: true, spend: 31000, budget: 32000, cpl: 95, cplBench: 105, conversions: 325, calls: 180, answerRate: 97 },
+    ms:     { active: false } },
+  { name: 'Amberfield Property Group', code: 'APG010', type: 'leadgen', crm: 'leadpulse', am: 'Kabelo Mokoena',
+    google: { active: true, spend: 72000, budget: 80000, cpl: 260, cplBench: 240, conversions: 275, calls: 140, answerRate: 84 },
+    ms:     { active: true, spend: 19000, budget: 20000, cpl: 330, cplBench: 260, conversions: 58,  calls: 45, answerRate: 66 } },
+  { name: 'Tidewater Seafoods', code: 'TWS011', type: 'ecomm', crm: 'none', am: 'Sarah Thompson',
+    google: { active: true, spend: 15500, budget: 18000, revenue: 71300, roas: 4.6, roasBench: 4.5, calls: 20, answerRate: 89 },
+    ms:     { active: true, spend: 5600,  budget: 7000,  revenue: 19000, roas: 3.4, roasBench: 3.6, calls: 8,  answerRate: 80 } },
+  { name: 'Nightingale Home Care', code: 'NHC012', type: 'leadgen', crm: 'external', am: 'Liam Petersen',
+    google: { active: true, spend: 26000, budget: 28000, cpl: 210, cplBench: 220, conversions: 124, calls: 88, answerRate: 92 },
+    ms:     { active: true, spend: 8000,  budget: 7000,  cpl: 245, cplBench: 230, conversions: 33,  calls: 25, answerRate: 78 } },
+  { name: 'Copperline Hardware', code: 'CPH013', type: 'ecomm', crm: 'pipedrive', am: 'Amy Ndlovu',
+    google: { active: true, spend: 48000, budget: 42000, revenue: 201600, roas: 4.2, roasBench: 4.4, calls: 33, answerRate: 76 },
+    ms:     { active: true, spend: 11000, budget: 13000, revenue: 34100,  roas: 3.1, roasBench: 3.4, calls: 15, answerRate: 69 } },
+  { name: 'Vantage Fitness Equipment', code: 'VFE014', type: 'ecomm', crm: 'leadpulse', am: 'Kabelo Mokoena',
+    google: { active: true, spend: 33000, budget: 36000, revenue: 178200, roas: 5.4, roasBench: 5.0, calls: 42, answerRate: 96 },
+    ms:     { active: true, spend: 10500, budget: 12000, revenue: 42000,  roas: 4.0, roasBench: 3.8, calls: 19, answerRate: 91 } },
+  { name: 'Golden Acre Realty', code: 'GAR015', type: 'leadgen', crm: 'none', am: 'Sarah Thompson',
+    google: { active: true, spend: 58000, budget: 40000, cpl: 320, cplBench: 200, conversions: 180, calls: 160, answerRate: 62 },
+    ms:     { active: true, spend: 8500,  budget: 10000, cpl: 240, cplBench: 230, conversions: 35,  calls: 30, answerRate: 85 } }
+];
+
+var TYPE_LABEL = { leadgen: 'Lead Gen', ecomm: 'eComm' };
+var CRM_LABEL = { none: 'No CRM', external: 'External CRM', leadpulse: 'LeadPulse', pipedrive: 'PipeDrive' };
+var PERIOD_LABEL = { '7d': 'Last 7 days', '30d': 'Last 30 days', 'month': 'This month', 'custom': 'Custom range' };
+var PLATFORM_META = {
+  google: { label: 'Google Ads', dot: 'tab-dot-google' },
+  ms: { label: 'Microsoft Ads', dot: 'tab-dot-ms' }
+};
+var AM_PALETTE = ['#8b5cf6', '#2563eb', '#0891b2', '#ea580c', '#16a34a', '#db2777'];
+var AM_LIST = Array.from(new Set(ACCOUNTS_RAW.map(function (a) { return a.am; })));
+var AM_COLOR = {};
+AM_LIST.forEach(function (name, i) { AM_COLOR[name] = AM_PALETTE[i % AM_PALETTE.length]; });
+
+var SORT_FIELD = {
+  name: '_nameRaw', am: '_amRaw', type: '_typeRaw', crm: '_crmRaw', health: '_healthRaw',
+  budget: '_budgetRaw', primary: '_primaryRaw', secondary: '_secondaryRaw', calls: '_callsRaw', answer: '_answerRaw'
+};
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+}
+function initials(name) {
+  return name.split(' ').map(function (w) { return w[0]; }).join('').toUpperCase().slice(0, 2);
+}
+function fmtNum(n) {
+  n = Math.round(n);
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function fmtR(n) { return 'R' + fmtNum(n); }
+function fmtX(n) { return n.toFixed(1) + 'x'; }
+
+function budgetStatus(pct) {
+  if (pct >= 85 && pct <= 110) return 'good';
+  if ((pct >= 70 && pct < 85) || (pct > 110 && pct <= 120)) return 'warn';
+  return 'bad';
+}
+function cplStatus(diffPct) {
+  if (diffPct <= 5) return 'good';
+  if (diffPct <= 20) return 'warn';
+  return 'bad';
+}
+function roasStatus(diffPct) {
+  if (diffPct >= -5) return 'good';
+  if (diffPct >= -20) return 'warn';
+  return 'bad';
+}
+function answerStatus(rate) {
+  if (rate >= 85) return 'good';
+  if (rate >= 75) return 'warn';
+  return 'bad';
+}
+var RANK = { good: 0, warn: 1, bad: 2 };
+function worst(list) {
+  var w = 'good';
+  for (var i = 0; i < list.length; i++) { if (RANK[list[i]] > RANK[w]) w = list[i]; }
+  return w;
+}
+function labelFor(status) {
+  if (status === 'good') return 'On track';
+  if (status === 'warn') return 'Watch';
+  return 'At risk';
+}
+
+function mapAccount(a, platformKey) {
+  var raw = a[platformKey];
+  var pct = (raw.spend / raw.budget) * 100;
+  var bStatus = budgetStatus(pct);
+  var aStatus = answerStatus(raw.answerRate);
+  var out = {
+    name: a.name, code: a.code, am: a.am,
+    amAvatarStyle: 'background:' + AM_COLOR[a.am],
+    amInitials: initials(a.am),
+    typeLabel: TYPE_LABEL[a.type], typeClass: 'pill-type pill-type-' + a.type,
+    crmLabel: CRM_LABEL[a.crm], crmDotClass: 'crm-dot crm-dot-' + a.crm,
+    spendLabel: fmtR(raw.spend), budgetLabel: fmtR(raw.budget),
+    barPct: Math.min(Math.round(pct), 100), pctLabel: Math.round(pct) + '%',
+    barClass: 'bar-fill bar-' + bStatus,
+    callsLabel: String(raw.calls),
+    answerLabel: raw.answerRate + '%', answerPillClass: 'pill pill-' + aStatus,
+    _nameRaw: a.name.toLowerCase(), _amRaw: a.am.toLowerCase(),
+    _typeRaw: TYPE_LABEL[a.type].toLowerCase(), _crmRaw: CRM_LABEL[a.crm].toLowerCase(),
+    _budgetRaw: pct, _callsRaw: raw.calls, _answerRaw: raw.answerRate
+  };
+  var overallList = [bStatus, aStatus];
+
+  if (a.type === 'leadgen') {
+    var cDiff = ((raw.cpl - raw.cplBench) / raw.cplBench) * 100;
+    var cStatus = cplStatus(cDiff);
+    overallList.push(cStatus);
+    out.primaryLabel = 'CPL'; out.primaryValue = fmtR(raw.cpl); out.primaryHasBench = true;
+    out.primaryBenchLabel = 'bench ' + fmtR(raw.cplBench);
+    out.primaryDiffLabel = (cDiff >= 0 ? '+' : '') + Math.round(cDiff) + '%';
+    out.primaryChipClass = 'diff-chip pill-' + cStatus;
+    out.primaryTriClass = cDiff >= 0 ? 'tri-up' : 'tri-down';
+    out.secondaryLabel = 'Conversions'; out.secondaryValue = String(raw.conversions); out.secondaryHasBench = false;
+    out._primaryRaw = raw.cpl; out._secondaryRaw = raw.conversions;
+  } else {
+    var rDiff = ((raw.roas - raw.roasBench) / raw.roasBench) * 100;
+    var rStatus = roasStatus(rDiff);
+    overallList.push(rStatus);
+    out.primaryLabel = 'Revenue'; out.primaryValue = fmtR(raw.revenue); out.primaryHasBench = false;
+    out.secondaryLabel = 'ROAS'; out.secondaryValue = fmtX(raw.roas); out.secondaryHasBench = true;
+    out.secondaryBenchLabel = 'bench ' + fmtX(raw.roasBench);
+    out.secondaryDiffLabel = (rDiff >= 0 ? '+' : '') + Math.round(rDiff) + '%';
+    out.secondaryChipClass = 'diff-chip pill-' + rStatus;
+    out.secondaryTriClass = rDiff >= 0 ? 'tri-up' : 'tri-down';
+    out._primaryRaw = raw.revenue; out._secondaryRaw = raw.roas;
+  }
+
+  var overall = worst(overallList);
+  out.overall = overall;
+  out.overallLabel = labelFor(overall);
+  out.pillClass = 'pill pill-' + overall;
+  out._healthRaw = RANK[overall];
+  out._spend = raw.spend; out._budget = raw.budget; out._answerRate = raw.answerRate;
+  return out;
+}
+
+var state = { activeTab: 'google', healthFilter: 'all', dateRange: 'month', search: '', amFilter: 'all', sortKey: null, sortDir: 'asc' };
+
+var HEADERS = [
+  { key: 'name', label: 'Account', rowspan: true, align: 'left' },
+  { key: 'am', label: 'Account manager', rowspan: true },
+  { key: 'type', label: 'Type', rowspan: true },
+  { key: 'crm', label: 'CRM', rowspan: true },
+  { key: 'health', label: 'Overall health', rowspan: true },
+  { key: 'budget', label: 'Budget', rowspan: true, info: 'Budget always shows month-to-date spend, regardless of the date range filter above.' }
+];
+
+function sortInd(key) {
+  var active = state.sortKey === key;
+  var upCls = 'sort-tri-up' + (active && state.sortDir === 'asc' ? ' active' : '');
+  var downCls = 'sort-tri-down' + (active && state.sortDir === 'desc' ? ' active' : '');
+  return '<span class="sort-ind"><span class="' + upCls + '"></span><span class="' + downCls + '"></span></span>';
+}
+
+function renderThead(periodLabel) {
+  var row1 = HEADERS.map(function (h) {
+    var style = h.align === 'left' ? ' style="text-align:left;padding-left:14px;"' : '';
+    var info = h.info ? '<span class="info-dot" title="' + esc(h.info) + '">i</span>' : '';
+    return '<th class="grp-head th-sort" data-sort="' + h.key + '" rowspan="2"' + style + '>' + esc(h.label) + info + sortInd(h.key) + '</th>';
+  }).join('');
+  row1 += '<th class="grp-head" colspan="2">Performance</th><th class="grp-head" colspan="2">Call tracking</th>';
+
+  var row2Defs = [
+    { key: 'primary', label: 'Cost / Revenue (' + periodLabel + ')' },
+    { key: 'secondary', label: 'Conv. / ROAS (' + periodLabel + ')' },
+    { key: 'calls', label: '# Calls (' + periodLabel + ')' },
+    { key: 'answer', label: 'Answer rate (' + periodLabel + ')' }
+  ];
+  var row2 = row2Defs.map(function (d) {
+    return '<th class="col-head center th-sort" data-sort="' + d.key + '">' + esc(d.label) + sortInd(d.key) + '</th>';
+  }).join('');
+
+  document.getElementById('thead').innerHTML = '<tr>' + row1 + '</tr><tr>' + row2 + '</tr>';
+}
+
+function render() {
+  var activeTab = state.activeTab;
+  var periodLabel = PERIOD_LABEL[state.dateRange];
+  renderThead(periodLabel);
+
+  // Tabs
+  var tabbarHtml = ['google', 'ms'].map(function (key) {
+    var count = ACCOUNTS_RAW.filter(function (a) { return a[key] && a[key].active; }).length;
+    var activeCls = activeTab === key ? ' tab-btn-active' : '';
+    return '<button type="button" class="tab-btn' + activeCls + '" data-tab="' + key + '">' +
+      '<span class="tab-dot ' + PLATFORM_META[key].dot + '"></span>' + PLATFORM_META[key].label +
+      '<span class="tab-count">' + count + '</span></button>';
+  }).join('');
+  document.getElementById('tabbar').innerHTML = tabbarHtml;
+
+  var allForTab = ACCOUNTS_RAW.filter(function (a) { return a[activeTab] && a[activeTab].active; })
+    .map(function (a) { return mapAccount(a, activeTab); });
+
+  // AM dropdown (rebuild only if not focused, to avoid disrupting an open dropdown)
+  var amSelect = document.getElementById('amSelect');
+  if (document.activeElement !== amSelect) {
+    var amOptions = '<option value="all">All account managers</option>' +
+      AM_LIST.map(function (name) { return '<option value="' + esc(name) + '"' + (state.amFilter === name ? ' selected' : '') + '>' + esc(name) + '</option>'; }).join('');
+    amSelect.innerHTML = amOptions;
+    amSelect.value = state.amFilter;
+  }
+
+  // AM scope: this is "whose portfolio" we're summarising - tiles reflect this
+  var scoped = state.amFilter === 'all' ? allForTab : allForTab.filter(function (a) { return a.am === state.amFilter; });
+
+  var good = scoped.filter(function (a) { return a.overall === 'good'; }).length;
+  var warn = scoped.filter(function (a) { return a.overall === 'warn'; }).length;
+  var bad = scoped.filter(function (a) { return a.overall === 'bad'; }).length;
+  var leadCount = scoped.filter(function (a) { return a.typeLabel === 'Lead Gen'; }).length;
+  var ecomCount = scoped.length - leadCount;
+
+  var totalSpend = 0, totalBudget = 0, answerSum = 0;
+  scoped.forEach(function (a) { totalSpend += a._spend; totalBudget += a._budget; answerSum += a._answerRate; });
+  var spendPct = totalBudget ? Math.round((totalSpend / totalBudget) * 100) : 0;
+  var avgAnswer = scoped.length ? Math.round(answerSum / scoped.length) : 0;
+  var avgAnswerStat = answerStatus(avgAnswer);
+  var scopeLabel = state.amFilter === 'all' ? PLATFORM_META[activeTab].label : PLATFORM_META[activeTab].label + ' · ' + state.amFilter;
+
+  var tiles = [
+    { label: 'Accounts', value: String(scoped.length), cls: '', sub: leadCount + ' Lead Gen · ' + ecomCount + ' eComm' },
+    { label: 'On track', value: String(good), cls: 'kpi-good', sub: 'meeting all benchmarks' },
+    { label: 'Watch', value: String(warn), cls: 'kpi-warn', sub: 'one or more metrics slipping' },
+    { label: 'At risk', value: String(bad), cls: 'kpi-bad', sub: 'needs action this week' },
+    { label: 'Spend MTD', value: fmtR(totalSpend), cls: '', sub: (totalBudget ? spendPct + '% of ' + fmtR(totalBudget) : 'no') + ' budget' },
+    { label: 'Avg answer rate', value: (scoped.length ? avgAnswer + '%' : '—'), cls: scoped.length ? 'kpi-' + avgAnswerStat : '', sub: 'across ' + scopeLabel }
+  ];
+  document.getElementById('tiles').innerHTML = tiles.map(function (t) {
+    return '<div class="tile"><div class="tile-label">' + esc(t.label) + '</div>' +
+      '<div class="tile-value ' + t.cls + '">' + esc(t.value) + '</div>' +
+      '<div class="tile-sub">' + esc(t.sub) + '</div></div>';
+  }).join('');
+
+  // Health chips (counted within the AM-scoped set)
+  var healthDefs = [
+    { key: 'all', label: 'All (' + scoped.length + ')' },
+    { key: 'good', label: 'On track (' + good + ')' },
+    { key: 'warn', label: 'Watch (' + warn + ')' },
+    { key: 'bad', label: 'At risk (' + bad + ')' }
+  ];
+  document.getElementById('healthChips').innerHTML = healthDefs.map(function (c) {
+    var activeCls = state.healthFilter === c.key ? ' is-active' : '';
+    return '<button type="button" class="chip' + activeCls + '" data-health="' + c.key + '">' + esc(c.label) + '</button>';
+  }).join('');
+
+  // Date range chips
+  var dateDefs = ['7d', '30d', 'month', 'custom'];
+  document.getElementById('dateChips').innerHTML = dateDefs.map(function (key) {
+    var activeCls = state.dateRange === key ? ' is-active' : '';
+    return '<button type="button" class="chip' + activeCls + '" data-range="' + key + '">' + esc(PERIOD_LABEL[key]) + '</button>';
+  }).join('');
+
+  // Filter (health + search) within the AM-scoped set, then sort
+  var q = state.search.trim().toLowerCase();
+  var rows = scoped.filter(function (a) {
+    if (state.healthFilter !== 'all' && a.overall !== state.healthFilter) return false;
+    if (q && a.name.toLowerCase().indexOf(q) === -1 && a.code.toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  });
+
+  if (state.sortKey) {
+    var field = SORT_FIELD[state.sortKey];
+    var dir = state.sortDir === 'asc' ? 1 : -1;
+    rows = rows.slice().sort(function (a, b) {
+      var av = a[field], bv = b[field];
+      if (typeof av === 'string') { return av.localeCompare(bv) * dir; }
+      return (av - bv) * dir;
+    });
+  }
+
+  var tbody = document.getElementById('tbody');
+  if (rows.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="10">No accounts match the current filters.</td></tr>';
+  } else {
+    tbody.innerHTML = rows.map(function (acct) {
+      var primaryBench = acct.primaryHasBench
+        ? '<div class="metric-sub">' + esc(acct.primaryBenchLabel) + '</div>' +
+          '<div class="' + acct.primaryChipClass + '"><span class="' + acct.primaryTriClass + '"></span>' + esc(acct.primaryDiffLabel) + '</div>'
+        : '';
+      var secondaryBench = acct.secondaryHasBench
+        ? '<div class="metric-sub">' + esc(acct.secondaryBenchLabel) + '</div>' +
+          '<div class="' + acct.secondaryChipClass + '"><span class="' + acct.secondaryTriClass + '"></span>' + esc(acct.secondaryDiffLabel) + '</div>'
+        : '';
+      return '<tr>' +
+        '<td style="padding-left:14px;"><span class="acct-name">' + esc(acct.name) + '</span>' +
+          '<span class="acct-code">' + esc(acct.code) + '</span></td>' +
+        '<td><span class="am-chip"><span class="am-avatar" style="' + acct.amAvatarStyle + '">' + esc(acct.amInitials) + '</span>' + esc(acct.am) + '</span></td>' +
+        '<td class="center"><span class="' + acct.typeClass + '">' + esc(acct.typeLabel) + '</span></td>' +
+        '<td class="center"><span class="crm-badge"><span class="' + acct.crmDotClass + '"></span>' + esc(acct.crmLabel) + '</span></td>' +
+        '<td class="center"><span class="' + acct.pillClass + '"><span class="pill-dot"></span>' + esc(acct.overallLabel) + '</span></td>' +
+        '<td class="metric-cell center"><div class="metric-main">' + esc(acct.spendLabel) + ' <span class="metric-sub">/ ' + esc(acct.budgetLabel) + '</span></div>' +
+          '<div class="bar-track"><div class="' + acct.barClass + '" style="width:' + acct.barPct + '%"></div></div>' +
+          '<div class="bar-pct">' + esc(acct.pctLabel) + ' of budget</div></td>' +
+        '<td class="metric-cell center"><div class="metric-sub">' + esc(acct.primaryLabel) + '</div>' +
+          '<div class="metric-main">' + esc(acct.primaryValue) + '</div>' + primaryBench + '</td>' +
+        '<td class="metric-cell center"><div class="metric-sub">' + esc(acct.secondaryLabel) + '</div>' +
+          '<div class="metric-main">' + esc(acct.secondaryValue) + '</div>' + secondaryBench + '</td>' +
+        '<td class="metric-cell center"><div class="metric-main">' + esc(acct.callsLabel) + '</div></td>' +
+        '<td class="metric-cell center"><span class="' + acct.answerPillClass + '">' + esc(acct.answerLabel) + '</span></td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  var footScope = state.amFilter === 'all' ? PLATFORM_META[activeTab].label : PLATFORM_META[activeTab].label + ' · ' + state.amFilter;
+  document.getElementById('footCount').textContent = rows.length + ' of ' + scoped.length + ' accounts on ' + footScope;
+}
+
+document.addEventListener('click', function (e) {
+  var tab = e.target.closest('[data-tab]');
+  if (tab) { state.activeTab = tab.getAttribute('data-tab'); state.healthFilter = 'all'; render(); return; }
+  var health = e.target.closest('[data-health]');
+  if (health) { state.healthFilter = health.getAttribute('data-health'); render(); return; }
+  var range = e.target.closest('[data-range]');
+  if (range) { state.dateRange = range.getAttribute('data-range'); render(); return; }
+  var sort = e.target.closest('[data-sort]');
+  if (sort) {
+    var key = sort.getAttribute('data-sort');
+    if (state.sortKey === key) { state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc'; }
+    else { state.sortKey = key; state.sortDir = 'asc'; }
+    render();
+    return;
+  }
+});
+
+document.getElementById('searchInput').addEventListener('input', function (e) {
+  state.search = e.target.value;
+  render();
+});
+
+document.getElementById('amSelect').addEventListener('change', function (e) {
+  state.amFilter = e.target.value;
+  state.healthFilter = 'all';
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
