@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ilulalab | Product Adoption Pulse v2</title>
+<style>
+:root{--ink:#32213d;--ink2:#56465f;--purple:#54345f;--muted:#8a8093;--line:#e9e4ec;--bg:#f6f5f7;--green:#117c53;--greenbg:#e6f7ed;--red:#be3449;--redbg:#fff0f1;--amber:#98671a;--amberbg:#fff3dc;--blue:#246e9b;--bluebg:#e7f3fa;--violetbg:#f2ebfa;--shadow:0 2px 7px #281a320c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:12px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}button,select,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #78528a;outline-offset:2px}a{color:inherit;text-decoration:none}[hidden]{display:none!important}
+.shell{min-height:100vh;display:flex}.sidebar{flex:0 0 204px;max-width:204px;background:#fff;border-right:1px solid var(--line);height:100vh;position:sticky;top:0;z-index:10;display:flex;flex-direction:column}.brandmark{height:150px;display:grid;place-items:start center;padding-top:42px}.brandmark svg{width:88px;height:72px}.nav{padding:4px 13px}.nav a{display:flex;align-items:center;gap:12px;padding:12px 15px;font-size:14px;border-radius:8px;margin-bottom:4px;color:#3b2b45}.nav a.active{background:#f0e9f2;color:#542c60;font-weight:760}.nav a:hover{background:#f8f5f9}.nav svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;flex:none}.sidebottom{font-size:10px;color:#a095a6;letter-spacing:.07em;padding:17px 19px;border-top:1px solid var(--line);margin-top:auto}.content{min-width:0;flex:1}.appbar{height:67px;background:white;display:flex;justify-content:space-between;align-items:center;padding:0 25px 0 29px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:9;overflow:hidden}.appname{font-size:30px;font-weight:790;letter-spacing:-1.5px}.fabric{height:67px;max-width:485px;flex:1;opacity:.15;background:repeating-linear-gradient(45deg,#14131a 0 9px,transparent 9px 22px),repeating-linear-gradient(135deg,#14131a 0 9px,transparent 9px 22px);mask-image:linear-gradient(90deg,transparent,black 28%,black 77%,transparent)}.appactions{display:flex;align-items:center;gap:13px}.appsearch{width:218px;border:1px solid #ede7ed;background:#fbf9fb;border-radius:9px;padding:9px 12px;color:#a398a7}.circle{height:34px;width:34px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;font-size:18px}.avatar{width:34px;height:34px;border-radius:50%;background:#ebd3bc;display:grid;place-items:center;color:#6f484d;font-weight:800;font-size:15px}
+.page{max-width:1960px;padding:19px 25px 32px;margin:0 auto}.path{font-size:11px;color:#9b91a1;font-weight:660;margin-bottom:7px}.heading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:15px}.heading h1{font-size:28px;line-height:1.18;letter-spacing:-.55px;margin:0 0 6px}.heading p{font-size:12px;color:#817589;margin:0}.headbuttons{display:flex;gap:8px;align-items:center;padding-top:8px}.secondarybtn{background:#fff;border:1px solid #e5dfe7;border-radius:7px;padding:9px 12px;font-weight:750;font-size:11.5px;white-space:nowrap;color:#5c4367}.secondarybtn:hover{background:#f9f5fa}.ghostline{font-size:10.5px;color:#a092a8;white-space:nowrap}.tabs{display:flex;gap:8px;margin:2px 0 15px;border-bottom:1px solid #e7e1ea}.tab{display:inline-flex;align-items:center;gap:7px;border:0;background:transparent;padding:10px 12px 12px;font-size:12px;color:#9b8fa1;font-weight:750;position:relative}.tab.active{color:#46304e}.tab.active:after{content:"";height:3px;position:absolute;background:#5b3767;left:0;right:0;bottom:-1px;border-radius:2px}.tab:hover{color:#533061}.tab .dot{height:7px;width:7px;border-radius:50%;background:#4590ea;display:inline-block}.tab.active .dot{background:#7656a3}.tab .count{font-size:10px;border-radius:20px;padding:2px 6px;background:#f1eaf4;color:#745d80}
+.stats{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px;margin-bottom:13px}.stat{background:#fff;border:1px solid var(--line);border-radius:10px;min-width:0;padding:13px 13px 12px;text-align:left;box-shadow:var(--shadow);position:relative;overflow:hidden}.stat:hover{background:#fcf9fd}.stat.selected{box-shadow:inset 0 -3px var(--purple),var(--shadow)}.stat .statlabel{font-size:10px;color:#8c8291;font-weight:800;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}.stat .statvalue{font-size:26px;line-height:1.2;font-weight:790;margin-top:4px;color:#382440}.stat .statvalue.green{color:var(--green)}.stat .statvalue.amber{color:var(--amber)}.stat .statvalue.red{color:var(--red)}.stat .statfoot{font-size:10.5px;color:#968b9c;margin-top:4px;white-space:nowrap}.stat .up{color:var(--green);font-weight:800}
+.filterpanel{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:12px 13px;margin-bottom:10px}.filterline{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.search{border:1px solid #e0d8e5;background:#fff;border-radius:7px;padding:9px 11px;width:202px;min-height:36px;color:#4b3653;font-weight:500}.select{min-height:36px;background:#fff;border:1px solid #e0d8e5;border-radius:7px;color:#4f3c59;padding:7px 9px;font-weight:670;max-width:180px}.filterright{margin-left:auto;display:flex;gap:8px;align-items:center}.filtermini{font-size:10px;color:#9b8fa1;font-weight:780;letter-spacing:.055em;text-transform:uppercase}.reset{background:transparent;border:0;font-size:11px;color:#80658d;text-decoration:underline;padding:8px 5px}.focusline{border-top:1px solid #f0ebf1;display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:10px;padding-top:10px}.focuslabel{font-size:10px;letter-spacing:.045em;color:#978b9d;text-transform:uppercase;font-weight:800;margin-right:2px}.focus{border:1px solid #e9e2eb;background:#faf9fb;color:#776982;border-radius:18px;padding:6px 10px;font-weight:730;font-size:10.5px}.focus.active{background:#503159;color:#fff;border-color:#503159}.focus:hover:not(.active){background:#f5eff7}.focus b{font-weight:820;margin-left:3px}.context{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:10.5px;color:#8e8294;margin:10px 2px}.context b{color:#66556c}.tablecard{border:1px solid var(--line);border-radius:11px;background:white;box-shadow:var(--shadow);overflow:hidden}.tabletop{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:12px 14px}.tabletop h2{font-size:15.5px;margin:0;font-weight:800}.tabletop p{margin:3px 0 0;color:#968a9c;font-size:10.5px}.legend{display:flex;align-items:center;justify-content:flex-end;gap:15px;flex-wrap:wrap;font-size:10.5px;color:#897b90}.keydot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px}.keydot.green{background:#36a779}.keydot.yellow{background:#e2aa48}.keydot.grey{background:#c4bec8}.tblscroll{overflow:auto;max-height:calc(100vh - 408px);min-height:445px;scrollbar-width:thin;scrollbar-color:#d5cbd8 #f7f5f7}.matrix{width:100%;min-width:1350px;border-collapse:separate;border-spacing:0;table-layout:fixed}.matrix th,.matrix td{text-align:left}.matrix thead{position:sticky;top:0;z-index:4}.matrix thead th{background:#faf8fa;color:#827587;font-size:10px;line-height:1.3;letter-spacing:.02em;font-weight:800;padding:9px 8px;border-bottom:1px solid #ebe7ed}.matrix thead tr.group th{background:#f4f1f6;text-transform:uppercase;letter-spacing:.09em;color:#97899d;text-align:center;font-size:9.5px;padding:8px 6px}.matrix thead tr.group th:first-child{text-align:left}.matrix th[data-sort]{cursor:pointer}.matrix th[data-sort]:hover{color:#583464;background:#f0eaf3}.matrix td{border-bottom:1px solid #f0edf2;padding:12px 8px;height:75px;vertical-align:middle;background:#fff}.matrix tr:hover td{background:#fdfafd}.matrix th:first-child,.matrix td:first-child{padding-left:14px}.matrix .sticky{position:sticky;left:0;z-index:2;box-shadow:1px 0 0 #e7e2ea;background:#fff}.matrix thead .sticky{z-index:6;background:#f4f1f6}.matrix tr:hover .sticky{background:#fdfafd}.matrix .end{position:sticky;right:0;z-index:2;box-shadow:-1px 0 0 #e7e2ea;background:#fff;text-align:center}.matrix thead .end{z-index:6;background:#f4f1f6}.matrix tr:hover .end{background:#fdfafd}.client{display:block;font-size:12px;font-weight:800;line-height:1.3;color:#34223d}.acctcode{font-size:10px;color:#a195a7;margin-top:3px}.owner{font-size:11px;font-weight:700;white-space:nowrap}.initial{height:21px;width:21px;background:#f1dfeb;color:#8d5777;font-size:10px;display:inline-grid;place-items:center;border-radius:50%;font-weight:800;margin-right:4px}.type{display:inline-block;padding:5px 7px;border-radius:6px;background:#efeafa;color:#775cb0;font-size:10px;font-weight:790;white-space:nowrap}.type.ecomm{background:#e7f3fc;color:#3475a2}.crmbadge{font-size:10.5px;font-weight:700;color:#5b5061;white-space:nowrap}.crmbadge:before{content:"";width:6px;height:6px;background:#7db1cd;display:inline-block;border-radius:50%;margin-right:5px;vertical-align:1px}.crmbadge.none:before{background:#bcb4c1}.status{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:780;padding:5px 7px;border-radius:5px;line-height:1;white-space:nowrap}.status.live{background:var(--greenbg);color:var(--green)}.status.off{background:#f1eff3;color:#796e7e}.status.review{background:var(--amberbg);color:var(--amber)}.status.na{background:#f5f4f5;color:#aaa2af}.status.receiving{background:var(--greenbg);color:var(--green)}.status.configured{background:var(--amberbg);color:var(--amber)}.status.none{background:#f5f2f6;color:#8e8396}.status.unknown{background:#fff3df;color:#966919}.sub{display:block;margin-top:5px;color:#9d91a1;font-size:9.8px;line-height:1.25}.newflag{display:inline-block;margin-top:4px;font-size:9px;color:#17845d;font-weight:820;letter-spacing:.02em}.sourcetext{font-size:11px;font-weight:720;white-space:nowrap;color:#51405a}.seo-select{width:100%;max-width:113px;border:1px solid transparent;border-radius:5px;background:#f2edfa;color:#74539a;padding:6px 5px;font-size:10.5px;font-weight:760;cursor:pointer}.seo-select.inhouse{background:#eaf4fc;color:#3479a4}.seo-select.agency{background:#f0eff2;color:#74697b}.seo-select.unknown{background:#fff4e0;color:#96691c}.seo-select:hover{border-color:#ded1e5}.sitewrap{display:flex;align-items:center;gap:5px}.scorebtn{border:0;border-radius:5px;background:transparent;padding:3px 0;font-size:14px;font-weight:820;color:#403047;white-space:nowrap}.scorebtn .denom{color:#b0a5b6;font-size:10px;font-weight:680}.scorebtn.low{color:#bf394d}.scorebtn.mid{color:#b27822}.scorebtn.good{color:#19845a}.pencil{border:0;background:none;color:#a28faa;cursor:pointer;font-size:12px;padding:3px;line-height:1}.pencil:hover{color:#573063}.sitesub{font-size:9.8px;color:#a093a5;margin-top:3px}.scoreedit{width:58px;border:1px solid #7d5a8d;border-radius:5px;padding:5px 4px;color:#472f50;font-weight:800}.scorelegend{display:flex;width:84px;background:#eeeaf0;border-radius:4px;height:4px;margin-top:5px;overflow:hidden}.scorefill{background:#23a46e;height:100%;border-radius:4px}.scorefill.low{background:#d34d5c}.scorefill.mid{background:#e7b24b}.reviewed{font-size:10.5px;color:#6c5e75;white-space:nowrap}.openclient{display:inline-grid;place-items:center;width:27px;height:27px;border:1px solid #dfd6e4;border-radius:7px;color:#50305c;font-size:19px;font-weight:600;background:white}.openclient:hover{background:#f1eaf4}.tablebottom{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;color:#97899b;font-size:10.5px;flex-wrap:wrap}.empty{text-align:center;font-weight:600;color:#998a9d;padding:50px!important}.foot{font-size:11px;color:#84768b;line-height:1.55;margin-top:14px;max-width:1200px}.foot strong{color:#604b6a}.demo{color:#8b7793;background:#f1ebf5;padding:3px 7px;border-radius:4px;font-weight:800;font-size:10px;white-space:nowrap}
+.detailview{display:none}.back{display:inline-block;color:#70537f;font-size:12px;font-weight:780;margin:10px 0 18px}.detailrow{background:white;border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:15px;max-width:950px}.detailrow h3{margin:0 0 10px;font-size:18px}.detailrow p{font-size:12px;color:#7e7185;max-width:680px}
+@media(max-width:1500px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.stat{padding:10px 12px}.stat .statvalue{font-size:23px}.tblscroll{max-height:calc(100vh - 460px)}}@media(max-width:960px){.sidebar{flex-basis:65px;max-width:65px}.nav span,.sidebottom{display:none}.nav{padding:5px}.nav a{justify-content:center;padding:11px}.brandmark svg{width:45px}.brandmark{height:110px;padding-top:34px}.appsearch,.fabric{display:none}.page{padding:17px 12px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.heading h1{font-size:24px}.headbuttons .ghostline{display:none}}
+
+/* Adoption percentage summaries and spend-allocation UI */
+.stats{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.stat{padding:15px 15px 13px;min-height:130px}
+.stat .statvalue{font-size:31px;letter-spacing:-.055em;margin-top:7px}
+.stat .statfoot{white-space:normal;font-size:10.8px;color:#867b8d;line-height:1.35}
+.stat .percentunit{font-size:19px;color:#85768d;letter-spacing:0;margin-left:1px}
+.stat .mini-track{height:5px;background:#f0edf2;border-radius:9px;overflow:hidden;margin-top:11px;margin-bottom:7px}
+.stat .mini-fill{display:block;height:100%;background:#735985;border-radius:8px;transition:width .2s}
+.stat .growth{font-size:10px;line-height:1.4;color:#16815c;font-weight:750;margin-top:4px}.stat .growth.neutral{color:#8e8193;font-weight:650}
+.stat .statvalue.green{color:#443051}
+.stat .statvalue.amber{color:#443051}
+.stat .statvalue.red{color:#443051}
+.stat.selected{box-shadow:inset 0 -3px #54345f, 0 3px 12px #281a3215;background:#fdfbff}
+.coveragehint{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 2px 9px;color:#81758a;font-size:11px}
+.coveragehint b{color:#3c2746}
+.stat .statlabel{display:flex;align-items:center;justify-content:space-between;gap:6px;white-space:normal}
+.stat .statsuffix{color:#aba0ae;font-size:9px;font-weight:600;text-transform:none;letter-spacing:0}
+.stat .statfoot strong{color:#4d385a}
+.stat .statvalue .fraction{font-size:12px;color:#8e8195;font-weight:700;letter-spacing:0;vertical-align:4px;margin-left:5px}
+.matrix{min-width:1510px}
+.mixbar{width:100%;height:10px;border-radius:5px;background:#ece8ee;overflow:hidden;display:flex;outline:1px solid #ece8ee;outline-offset:-1px}
+.mixbar>span{height:100%;flex-shrink:0;display:block}
+.mix-aimax{background:#7150a5}.mix-search{background:#c5afdc}.mix-demand{background:#318eae}.mix-pmax{background:#37a178}.mix-other{background:#d7d0da}
+.mini-mix{width:132px}
+.mix-caption{font-size:9.5px;margin-top:7px;color:#83758c;white-space:nowrap}
+.mix-caption b{color:#543766}
+.mix-caption strong{color:#16815c}
+.legend-swatches{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:10.4px;color:#7f7288;margin-top:8px}
+.legend-swatch{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.legend-swatch i{height:8px;width:8px;border-radius:2px;display:inline-block}
+.detailview h1{margin:0 0 6px;font-size:29px;letter-spacing:-.05em}
+.detailview h2{font-size:17px;margin:0;color:#34223d}
+.detailhead{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:18px}
+.detail-meta{font-size:12px;color:#80718b;margin-top:5px}
+.detailperiod{display:flex;gap:4px;background:#f0ebf3;padding:4px;border-radius:9px;align-items:center}
+.detailperiod button{border:0;border-radius:6px;padding:8px 13px;background:transparent;font-weight:760;font-size:11px;color:#776b7f}
+.detailperiod button.active{background:#fff;color:#3e2a48;box-shadow:0 1px 5px #2f163b17}
+.detailgrid{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(275px,1fr);gap:15px;align-items:start}
+.detailcard{border:1px solid var(--line);background:#fff;border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);min-width:0}
+.detailcard .small{color:#877a8e;font-size:11px;margin:5px 0 0;line-height:1.6}
+.d-hero{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:16px 0 18px}
+.d-spend{font-size:29px;font-weight:800;letter-spacing:-.055em;color:#32213d}
+.d-spend-label{font-size:10px;color:#96869c;font-weight:750;text-transform:uppercase;letter-spacing:.04em}
+.d-mixbar{display:flex;width:100%;height:23px;border-radius:8px;overflow:hidden;box-shadow:inset 0 0 0 1px #ffffff4d;background:#f0ebf2}
+.d-mixbar>div{height:100%;transition:width .2s;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:10px;min-width:0}
+.d-mixbar .mix-search{color:#654879}
+.d-mixbar .mix-other{color:#766c7b}
+.d-table{border-collapse:collapse;width:100%;margin-top:16px;font-size:11.8px}
+.d-table th{text-align:left;color:#978c9e;background:#faf8fb;font-weight:760;font-size:10px;padding:10px 8px;border-bottom:1px solid #e9e5ed;white-space:nowrap}
+.d-table th:not(:first-child),.d-table td:not(:first-child){text-align:right}
+.d-table td{border-bottom:1px solid #f1edf3;padding:13px 8px;color:#463451}
+.d-table td strong{font-size:12px}
+.d-table tr:last-child td{border:0}
+.channelname{display:inline-flex;align-items:center;gap:8px;font-weight:780}
+.channelname i{height:10px;width:10px;border-radius:3px;display:inline-block;flex-shrink:0}
+.delta{display:inline-block;font-weight:800;font-size:11px;border-radius:5px;padding:4px 6px}
+.delta.up{background:#e5f1f8;color:#286f99}.delta.down{background:#f1edf7;color:#735c84}.delta.flat{background:#f3f0f4;color:#82768a}
+.detailnote{background:#f9f6fb;padding:12px 13px;border:1px solid #eee6f0;border-radius:8px;margin-top:15px;font-size:11px;line-height:1.65;color:#6c5976}
+.detailnote b{color:#4a3255}
+.detailfacts{display:grid;gap:0;margin-top:10px}
+.fact{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #f0edf2;font-size:11.5px}
+.fact:last-child{border:0}.fact-label{color:#86798d}.fact-value{font-weight:750;color:#463252;text-align:right}
+.detailback{font-size:11px;color:#775f82;text-decoration:underline;margin:18px 0 0;display:inline-block}
+.minitable-wrap{overflow:auto}
+@media(max-width:1390px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{min-height:115px}.detailgrid{grid-template-columns:minmax(0,1fr) 290px}}
+@media(max-width:1100px){.detailgrid{grid-template-columns:1fr}.page{padding:15px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.detailcard{padding:13px}.d-table{font-size:10.2px}.detailperiod{width:100%}.detailperiod button{flex:1}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar"><div class="brandmark"><svg viewBox="0 0 100 75" fill="none" aria-label="SearchKings mark"><path d="M9 67V13L31 39L50 8L72 39L91 13V67Z" stroke="#08070b" stroke-width="6"/><path d="M9 17L91 67M91 17L9 67" stroke="#08070b" stroke-width="5"/><path d="M12 7L8 1M50 6V0M89 7l5-6" stroke="#08070b" stroke-width="3"/></svg></div><nav class="nav">
+<a href="#" data-placeholder><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3Z"/><path d="M9 21v-8h6v8"/></svg><span>Dashboard</span></a>
+<a class="active" href="#/pulse"><svg viewBox="0 0 24 24"><path d="M2 12h5l3-8 4 16 3-8h5"/></svg><span>Pulse</span></a>
+<a href="#" data-placeholder><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 9l2 2 5-5M8 16h8"/></svg><span>Team Tasks</span></a>
+<a href="#" data-placeholder><svg viewBox="0 0 24 24"><path d="M4 21V4h16v17M1 21h22M8 8h2m4 0h2m-8 4h2m4 0h2m-8 4h2"/></svg><span>Clients</span></a>
+<a href="#" data-placeholder><svg viewBox="0 0 24 24"><path d="M3 12l16-7-4 15-5-6Z"/></svg><span>Google Ads</span></a>
+<a href="#" data-placeholder><svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-3 2c2 4 4 6 8 8l2-3 4 2v4c-8 2-18-8-17-18Z"/></svg><span>Call Tracking</span></a>
+</nav><div class="sidebottom">PULSE · ACCOUNT WORKSPACE</div></aside>
+<div class="content"><header class="appbar"><div class="appname">ilulalab</div><div class="fabric"></div><div class="appactions"><div class="appsearch">Search ilulalab…</div><div class="circle">♧</div><div class="circle">＋</div><div class="avatar">A</div></div></header>
+<main class="page" id="portfolioPage">
+<div class="path">Pulse / Google Ads / Product adoption</div>
+<div class="heading"><div><h1>Product adoption pulse</h1><p>Google Ads technology and service adoption across your accounts · see what's live, connected and still to be assessed.</p></div><div class="headbuttons"><span class="ghostline">Illustrative account data</span><button class="secondarybtn" type="button" id="exportBtn">↓ Export CSV</button></div></div>
+<div class="tabs" role="tablist" aria-label="Pulse dashboards"><a class="tab" href="ilulalab_google_ads_pulse_am_v3.html"><span class="dot"></span>Performance</a><span class="tab active" aria-selected="true"><span class="dot"></span>Product adoption <span class="count" id="tabCount">17</span></span><a class="tab" target="_blank" rel="noopener" href="https://ilulalab.searchkingsafrica.com/pulse/google_ads/recurring_problems">Recurring issues ↗</a></div>
+<div class="coveragehint"><span>Adoption across <b id="scopeCount">17</b> Google Ads accounts in the current selection <span style="color:#a599ab">· percentages are based on accounts, not campaigns</span></span><span><b>Click a card</b> to filter to accounts using that product</span></div><div class="stats" id="stats"></div>
+<div class="filterpanel">
+<div class="filterline">
+<input class="search" id="search" placeholder="⌕  Search account…" aria-label="Search accounts">
+<select class="select" id="amFilter" aria-label="Filter by account manager"><option value="all">All account managers</option></select>
+<select class="select" id="typeFilter" aria-label="Filter by account type"><option value="all">All account types</option><option value="leadgen">Lead Gen</option><option value="ecomm">E-comm</option></select>
+<select class="select" id="crmFilter" aria-label="Filter by CRM"><option value="all">All CRMs</option></select>
+<select class="select" id="seoFilter" aria-label="Filter by SEO ownership"><option value="all">All SEO ownership</option><option value="SKA">SEO · SKA</option><option value="In-house">SEO · In-house</option><option value="External agency">SEO · Agency</option><option value="Not confirmed">SEO · Not confirmed</option></select>
+<select class="select" id="offlineFilter" aria-label="Filter by offline conversion status"><option value="all">All offline conversion</option><option value="receiving">Receiving data</option><option value="configured">No data received</option><option value="none">Not configured</option><option value="unknown">Not assessed</option><option value="na">Not applicable</option></select>
+<div class="filterright"><button class="reset" id="clearBtn">Clear filters</button></div>
+</div>
+<div class="focusline"><span class="focuslabel">Quick filters</span><div id="focusButtons" style="display:flex;flex-wrap:wrap;gap:7px"></div></div>
+</div>
+<div class="context"><span><b>Campaigns:</b> Adoption = accounts with at least one live campaign / enabled Search campaign. Not live does not mean suitable to launch.</span><span><b>Spend mix:</b> AI Max = spend on Search campaigns with AI Max enabled; it is not an independently billed campaign type.</span></div>
+<section class="tablecard"><div class="tabletop"><div><h2>Account adoption matrix</h2><p>Adoption status + share of spend by account · click ＋ for the full split</p></div><div class="legend"><span><i class="keydot green"></i> Live / connected</span><span><i class="keydot yellow"></i> Needs verification</span><span><i class="keydot grey"></i> Not live / not applicable</span><select class="select" id="sort" aria-label="Sort accounts"><option value="review">Review first</option><option value="account">Account A–Z</option><option value="am">Account manager</option><option value="seo">SEO ownership</option><option value="website">Lowest website rating</option><option value="offline">Offline conversion status</option><option value="new">New adoption first</option></select></div></div>
+<div class="tblscroll"><table class="matrix"><colgroup><col style="width:185px"><col style="width:105px"><col style="width:77px"><col style="width:94px"><col style="width:89px"><col style="width:90px"><col style="width:88px"><col style="width:165px"><col style="width:113px"><col style="width:84px"><col style="width:110px"><col style="width:92px"><col style="width:78px"><col style="width:42px"></colgroup>
+<thead><tr class="group"><th class="sticky" rowspan="2" data-sort="account">Client / account ↕</th><th colspan="3">Account context</th><th colspan="4">Google Ads campaign adoption &amp; spend</th><th colspan="2">Offline conversion tracking</th><th colspan="2">Other services &amp; quality</th><th rowspan="2">Last review</th><th rowspan="2" class="end">View</th></tr><tr><th data-sort="am">Account manager ↕</th><th>Type</th><th>CRM</th><th>AI Max <span title="Search campaigns with AI Max enabled">ⓘ</span></th><th>Demand Gen</th><th>PMax</th><th title="Percentage of Google Ads account spend by campaign type over the last 30 days">Spend mix (30d)</th><th data-sort="offline">Offline status ↕</th><th>Via</th><th data-sort="seo">SEO owner ↕</th><th data-sort="website">Website /10 ↕</th></tr></thead>
+<tbody id="rows"></tbody></table></div><div class="tablebottom"><span id="count"></span><span>Colour distinguishes adoption status, not suitability. <b>SEO ownership is neutral.</b></span></div></section>
+<div class="foot"><span class="demo">ILLUSTRATIVE DATA</span> <strong>How to use:</strong> Use the percentage cards to isolate accounts currently running each product. The small spend bar is each account’s last 30-day Google Ads spend mix. Click <strong>＋</strong> to see the complete split, spend values, and period-over-period percentage-point changes. SEO ownership and website ratings can be adjusted in this demo (not saved to Ilulalab). <strong>AI Max share</strong> refers to the spend of Search campaigns with the feature enabled, rather than spend attributable to the feature itself. An unactivated campaign is not necessarily a missed opportunity.</div>
+</main>
+<main class="page detailview" id="detailPage">
+<a class="back" href="#/pulse">← Product Adoption Pulse / All accounts</a>
+<div class="path">Pulse / Google Ads / Account detail / Product adoption</div>
+<div class="detailhead"><div><h1 id="detailName">Account</h1><div class="detail-meta" id="detailHint"></div></div><div class="detailperiod" role="group" aria-label="Spend analysis period"><button type="button" class="active" data-period="30d">Last 30 days</button><button type="button" data-period="7d">Last 7 days</button><button type="button" data-period="mtd">MTD</button></div></div>
+<div class="detailgrid">
+<section class="detailcard"><div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap"><div><h2>Google Ads spend allocation</h2><p class="small">Distribution of account spend by campaign type · compared with the previous equivalent period</p></div><span class="status live" style="white-space:normal">Campaign spend · synced data mock-up</span></div>
+<div class="d-hero"><div><div class="d-spend-label">Total spend <span id="detailPeriodText">· last 30 days</span></div><div class="d-spend" id="detailSpend">R0</div></div><div class="small" style="max-width:210px">Every account has its own spend mix. Percentages below add up to 100% of Google Ads spend.</div></div>
+<div class="d-mixbar" id="detailMixBar" aria-label="Campaign spend distribution"></div>
+<div class="legend-swatches" id="mixLegend" style="margin-top:13px"></div>
+<div class="minitable-wrap"><table class="d-table"><thead><tr><th>Campaign type / feature</th><th>Spend</th><th>% of spend</th><th>vs prior period</th></tr></thead><tbody id="detailMixRows"></tbody></table></div>
+<div class="detailnote"><b>Important:</b> AI Max is a Search campaign feature. The AI Max row represents <b>total spend on Search campaigns with AI Max enabled</b> — not incremental spend attributed to AI Max. The remaining Search spend is listed separately, so all rows are mutually exclusive and add to 100%. <b>Period changes show allocation shifts, not necessarily better or worse performance.</b></div>
+</section>
+<aside class="detailcard"><h2>Account setup</h2><p class="small">Live product adoption, measurement connections and quality context.</p><div class="detailfacts" id="detailFacts"></div><div class="detailnote">A campaign being live does not automatically mean it should receive more budget. The spend breakdown is intended to show the <b>depth of adoption</b> alongside the activation status.</div><a class="detailback" href="#/pulse">← Return to account matrix</a></aside>
+</div>
+<div class="foot"><span class="demo">DEMO CLIENT DETAIL</span> In the live product, the + link should lead to the existing Google Ads client page. This spend-allocation section can be added to that page, rather than maintaining a separate detail screen.</div>
+</main>
+</div></div>
+<script>
+// Fully fictional records, designed to demonstrate information architecture and UI behaviour.
+const records = [
+{name:'Blue Harbour Hotels',code:'BLH001',am:'Amy Ndlovu',type:'ecomm',crm:'Pipedrive',ai:['live',2,true],dg:['live',1,false],pm:['live',3,false],offline:'receiving',route:'Own CRM',seo:'External agency',website:8.4,oldWebsite:8.0,review:'12 Nov',siteReview:'07 Nov',offlineAge:'2 days'},
+{name:'Solstice Skincare',code:'SLS005',am:'Amy Ndlovu',type:'ecomm',crm:'HubSpot',ai:['na',0,false],dg:['live',2,true],pm:['live',2,false],offline:'na',route:'—',seo:'SKA',website:9.1,oldWebsite:8.7,review:'14 Nov',siteReview:'14 Nov'},
+{name:'Riverside Dental Studio',code:'RDS009',am:'Amy Ndlovu',type:'leadgen',crm:'Pipedrive',ai:['live',1,true],dg:['off',0,false],pm:['off',0,false],offline:'receiving',route:'LeadPulse',seo:'SKA',website:7.9,oldWebsite:7.4,review:'13 Nov',siteReview:'06 Nov',offlineAge:'1 day'},
+{name:'Copperline Hardware',code:'CPH013',am:'Amy Ndlovu',type:'ecomm',crm:'No CRM',ai:['off',0,false],dg:['off',0,false],pm:['live',2,false],offline:'none',route:'—',seo:'In-house',website:5.8,oldWebsite:6.1,review:'09 Nov',siteReview:'03 Nov'},
+{name:'Orchard Family Clinic',code:'OFC016',am:'Amy Ndlovu',type:'leadgen',crm:'HubSpot',ai:['review',0,false],dg:['na',0,false],pm:['off',0,false],offline:'configured',route:'Own CRM',seo:'External agency',website:6.3,oldWebsite:null,review:'11 Nov',siteReview:'08 Nov'},
+{name:'Greenline Kitchens',code:'GLK017',am:'Amy Ndlovu',type:'leadgen',crm:'Pipedrive',ai:['live',1,false],dg:['live',1,false],pm:['off',0,false],offline:'receiving',route:'LeadPulse',seo:'SKA',website:7.3,oldWebsite:6.8,review:'12 Nov',siteReview:'02 Nov',offlineAge:'today'},
+{name:'Pine Ridge Travel',code:'PRT018',am:'Amy Ndlovu',type:'ecomm',crm:'HubSpot',ai:['live',2,false],dg:['live',3,false],pm:['live',2,true],offline:'receiving',route:'Own CRM',seo:'In-house',website:8.8,oldWebsite:8.2,review:'15 Nov',siteReview:'12 Nov',offlineAge:'today'},
+{name:'Nova Fitness Group',code:'NFG002',am:'Kabelo Mokoena',type:'leadgen',crm:'LeadPulse',ai:['live',1,false],dg:['off',0,false],pm:['live',1,true],offline:'receiving',route:'LeadPulse',seo:'SKA',website:8.0,oldWebsite:7.9,review:'15 Nov',siteReview:'15 Nov',offlineAge:'1 day'},
+{name:'Harborline Logistics',code:'HBL006',am:'Kabelo Mokoena',type:'leadgen',crm:'No CRM',ai:['off',0,false],dg:['review',0,false],pm:['off',0,false],offline:'none',route:'—',seo:'Not confirmed',website:4.9,oldWebsite:5.3,review:'05 Nov',siteReview:'05 Nov'},
+{name:'Amberfield Property Group',code:'APG010',am:'Kabelo Mokoena',type:'leadgen',crm:'Zoho',ai:['off',0,false],dg:['live',1,true],pm:['off',0,false],offline:'configured',route:'Own CRM',seo:'External agency',website:6.5,oldWebsite:6.6,review:'13 Nov',siteReview:'09 Nov'},
+{name:'Vantage Fitness Equipment',code:'VFE014',am:'Kabelo Mokoena',type:'ecomm',crm:'Pipedrive',ai:['na',0,false],dg:['live',1,false],pm:['live',2,false],offline:'na',route:'—',seo:'SKA',website:7.4,oldWebsite:7.0,review:'14 Nov',siteReview:'08 Nov'},
+{name:'Kaleidoscope Décor',code:'KLD003',am:'Sarah Thompson',type:'ecomm',crm:'HubSpot',ai:['off',0,false],dg:['live',1,false],pm:['live',1,false],offline:'none',route:'—',seo:'External agency',website:6.1,oldWebsite:6.8,review:'07 Nov',siteReview:'04 Nov'},
+{name:'Cape Grove Wines',code:'CGW007',am:'Sarah Thompson',type:'ecomm',crm:'No CRM',ai:['na',0,false],dg:['off',0,false],pm:['live',1,false],offline:'na',route:'—',seo:'In-house',website:7.8,oldWebsite:7.7,review:'10 Nov',siteReview:'10 Nov'},
+{name:'Golden Acre Realty',code:'GAR015',am:'Sarah Thompson',type:'leadgen',crm:'No CRM',ai:['review',0,false],dg:['off',0,false],pm:['off',0,false],offline:'none',route:'—',seo:'Not confirmed',website:5.4,oldWebsite:5.8,review:'05 Nov',siteReview:'31 Oct'},
+{name:'Bergview Motors',code:'BGM004',am:'Liam Petersen',type:'leadgen',crm:'Salesforce',ai:['live',3,true],dg:['off',0,false],pm:['live',2,false],offline:'receiving',route:'Own CRM',seo:'External agency',website:8.1,oldWebsite:7.8,review:'14 Nov',siteReview:'11 Nov',offlineAge:'3 days'},
+{name:'Meridian Legal Partners',code:'MLP008',am:'Liam Petersen',type:'leadgen',crm:'Pipedrive',ai:['off',0,false],dg:['na',0,false],pm:['review',0,false],offline:'unknown',route:'—',seo:'In-house',website:null,oldWebsite:null,review:'02 Nov',siteReview:'—'},
+{name:'Nightingale Home Care',code:'NHC012',am:'Liam Petersen',type:'leadgen',crm:'HubSpot',ai:['live',1,false],dg:['off',0,false],pm:['off',0,false],offline:'receiving',route:'Own CRM',seo:'SKA',website:8.6,oldWebsite:8.1,review:'15 Nov',siteReview:'12 Nov',offlineAge:'1 day'}
+
+];
+// Illustrative last-30-day spend and mutually exclusive spend-share categories:
+// [AI-Max-enabled Search, other Search, Demand Gen, Performance Max, other campaign types].
+const demoSpend=[78400,54300,28700,36600,23100,47200,93700,45600,18500,32500,61700,38800,25200,19100,68500,21800,37900];
+const demoMix=[
+[13,22,14,43,8], [0,18,25,50,7], [46,46,0,0,8], [0,36,0,58,6],
+[0,89,0,0,11], [32,48,12,0,8], [14,19,20,40,7], [36,20,0,38,6],
+[0,87,0,0,13], [0,66,26,0,8], [0,12,16,67,5], [0,25,14,56,5],
+[0,23,0,69,8], [0,92,0,0,8], [28,25,0,41,6], [0,94,0,0,6], [52,40,0,0,8]
+];
+records.forEach((a,i)=>{a.spend=demoSpend[i];a.mix=demoMix[i];});
+const mixChannels=[
+{key:'ai',label:'AI Max-enabled Search',short:'AI Max',className:'mix-aimax'},
+{key:'search',label:'Other Search campaigns',short:'Other Search',className:'mix-search'},
+{key:'dg',label:'Demand Gen',short:'Demand Gen',className:'mix-demand'},
+{key:'pm',label:'Performance Max',short:'PMax',className:'mix-pmax'},
+{key:'other',label:'Other campaigns',short:'Other',className:'mix-other'}
+];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const state={focus:'all',sort:'review',period:'30d'};
+const ownerShort=n=>n.split(' ')[0]+' '+n.split(' ').at(-1)[0]+'.';
+function newFlag(a){return a.ai[2]||a.dg[2]||a.pm[2]}
+function isReview(a){return a.offline==='configured'||a.offline==='unknown'||a.seo==='Not confirmed'||a.website===null||a.website<7||['ai','dg','pm'].some(k=>a[k][0]==='review')}
+function focusMatch(a,focus){switch(focus){case 'all':return true;case 'review':return isReview(a);case 'offline':return ['configured','none','unknown'].includes(a.offline);case 'website':return a.website===null||a.website<7;case 'seo':return a.seo==='External agency'||a.seo==='In-house';case 'new':return newFlag(a);case 'ai':return a.ai[0]==='live';case 'dg':return a.dg[0]==='live';case 'pm':return a.pm[0]==='live';case 'receiving':return a.offline==='receiving';case 'ska':return a.seo==='SKA';case 'rated':return a.website!==null;case 'lowspend':return [0,2,3].some((idx,j)=>a[['ai','dg','pm'][j]][0]==='live'&&a.mix[idx]<5);default:return true}}
+function populate(){const ams=[...new Set(records.map(a=>a.am))].sort(),crms=[...new Set(records.map(a=>a.crm))].sort();$('amFilter').innerHTML+=[...ams].map(a=>`<option value="${esc(a)}">${esc(a)}</option>`).join('');$('crmFilter').innerHTML+=crms.map(a=>`<option value="${esc(a)}">${esc(a)}</option>`).join('')}
+const labels={live:'Live',off:'Not live',review:'Check fit',na:'N/A',receiving:'Receiving',configured:'No data',none:'Not set up',unknown:'Not assessed'};
+function campaign(a,key){let [s,n,isNew]=a[key];let title=key==='ai'?'Enabled Search campaigns':'Live campaigns';return `<span class="status ${s}" title="${esc(labels[s])}">${s==='live'?'● ':s==='review'?'! ':s==='off'?'— ':''}${labels[s]}</span>${s==='live'?`<span class="sub">${n} ${key==='ai'?'Search enabled':n===1?'campaign':'campaigns'}</span>`:s==='review'?'<span class="sub">Suitability unknown</span>':''}${isNew?'<span class="newflag">↗ NEW IN 30D</span>':''}`}
+function offline(a){let s=a.offline;const sub={receiving:`Last received ${a.offlineAge??'recently'}`,configured:'Configured · no recent data',none:'Connection missing',unknown:'Needs verification',na:'Not applicable'};return `<span class="status ${s}">${s==='receiving'?'● ':s==='configured'?'! ':''}${labels[s]}</span><span class="sub">${sub[s]}</span>`}
+const seoClass={'SKA':'','In-house':'inhouse','External agency':'agency','Not confirmed':'unknown'};
+function seoCell(a){return `<select class="seo-select ${seoClass[a.seo]}" data-seo="${esc(a.code)}" aria-label="SEO ownership for ${esc(a.name)}"><option value="SKA" ${a.seo==='SKA'?'selected':''}>SKA</option><option value="In-house" ${a.seo==='In-house'?'selected':''}>In-house</option><option value="External agency" ${a.seo==='External agency'?'selected':''}>Agency</option><option value="Not confirmed" ${a.seo==='Not confirmed'?'selected':''}>Not confirmed</option></select>`}
+function siteCell(a){if(a.website===null)return `<button class="pencil" type="button" data-edit="${esc(a.code)}" title="Add a manual website rating">＋ Add rating</button><div class="sitesub">Not rated</div>`;const cls=a.website>=8?'good':a.website>=6?'mid':'low';let diff=a.oldWebsite===null?null:+(a.website-a.oldWebsite).toFixed(1);let diffText=diff===null?'First review':diff>0?`↗ +${diff.toFixed(1)} since review`:diff<0?`↘ ${diff.toFixed(1)} since review`:'→ No change';return `<div class="sitewrap"><button class="scorebtn ${cls}" type="button" data-edit="${esc(a.code)}" aria-label="Edit manual website score for ${esc(a.name)}">${a.website.toFixed(1)}<span class="denom">/10</span></button><button type="button" class="pencil" data-edit="${esc(a.code)}" title="Edit rating">✎</button></div><div class="scorelegend"><div class="scorefill ${cls}" style="width:${Math.max(0,Math.min(a.website*10,100))}%"></div></div><div class="sitesub">${diffText}</div>`}
+
+function money(n){return 'R'+Math.round(n).toLocaleString('en-ZA')}
+function spendMixCell(a){
+ const desc=mixChannels.map((x,i)=>`${x.short}: ${a.mix[i]}%`).join(' · ');
+ return `<div class="mini-mix" title="${esc(desc)}"><div class="mixbar">${a.mix.map((pct,i)=>`<span class="${mixChannels[i].className}" style="width:${pct}%"></span>`).join('')}</div><div class="mix-caption"><b>AI ${a.mix[0]}%</b> &nbsp; DG ${a.mix[2]}% &nbsp; PM ${a.mix[3]}%</div></div>`;
+}
+function renderRow(a){return `<tr data-code="${esc(a.code)}"><td class="sticky"><span class="client">${esc(a.name)}</span><div class="acctcode">${esc(a.code)}</div></td><td><span class="owner"><span class="initial">${esc(a.am[0])}</span>${esc(ownerShort(a.am))}</span></td><td><span class="type ${a.type==='ecomm'?'ecomm':''}">${a.type==='ecomm'?'E-comm':'Lead Gen'}</span></td><td><span class="crmbadge ${a.crm==='No CRM'?'none':''}">${esc(a.crm)}</span></td><td>${campaign(a,'ai')}</td><td>${campaign(a,'dg')}</td><td>${campaign(a,'pm')}</td><td>${spendMixCell(a)}</td><td>${offline(a)}</td><td><div class="sourcetext">${esc(a.route)}</div></td><td>${seoCell(a)}</td><td data-sitecode="${esc(a.code)}">${siteCell(a)}</td><td><span class="reviewed">${esc(a.review)}</span><span class="sub">2026</span></td><td class="end"><a class="openclient" href="#/google_ads_customers/${encodeURIComponent(a.code)}" title="Open ${esc(a.name)} Google Ads detail view" aria-label="Open Google Ads details for ${esc(a.name)}">＋</a></td></tr>`}
+function filteredBase(){let s=$('search').value.toLowerCase().trim(),am=$('amFilter').value,type=$('typeFilter').value,crm=$('crmFilter').value,seo=$('seoFilter').value,offline=$('offlineFilter').value;return records.filter(a=>(!s||[a.name,a.code,a.am,a.crm,a.seo,a.type].join(' ').toLowerCase().includes(s))&&(am==='all'||a.am===am)&&(type==='all'||a.type===type)&&(crm==='all'||a.crm===crm)&&(seo==='all'||a.seo===seo)&&(offline==='all'||a.offline===offline))}
+function render(){
+ let base=filteredBase();const n=key=>base.filter(a=>focusMatch(a,key)).length;
+ $('scopeCount').textContent=base.length;
+ const percent=count=>base.length?Math.round(count*100/base.length):0;
+ const stats=[
+  {key:'ai',label:'AI Max',value:n('ai'),sub:'Search feature enabled',growth:`${base.filter(a=>a.ai[2]).length} newly enabled in 30d`},
+  {key:'dg',label:'Demand Gen',value:n('dg'),sub:'At least one campaign live',growth:`${base.filter(a=>a.dg[2]).length} newly live in 30d`},
+  {key:'pm',label:'Performance Max',value:n('pm'),sub:'At least one campaign live',growth:`${base.filter(a=>a.pm[2]).length} newly live in 30d`},
+  {key:'receiving',label:'Offline data',value:n('receiving'),sub:'Receiving conversions',growth:'Configured ≠ receiving'},
+  {key:'ska',label:'SEO by SKA',value:n('ska'),sub:'Ownership across portfolio',growth:'External / in-house tracked separately'},
+  {key:'rated',label:'Websites rated',value:n('rated'),sub:'Manual score entered',growth:`${base.length-n('rated')} still unrated`},
+ ];
+ $('stats').innerHTML=stats.map(s=>{
+  const pc=percent(s.value);const selected=state.focus===s.key;
+  return `<button type="button" class="stat ${selected?'selected':''}" data-focus="${s.key}" aria-pressed="${selected}" title="View the ${s.value} accounts included in ${s.label}">
+   <div class="statlabel">${s.label}<span class="statsuffix">↗ filter</span></div>
+   <div class="statvalue">${pc}<span class="percentunit">%</span><span class="fraction">${s.value}/${base.length} accounts</span></div>
+   <div class="mini-track"><span class="mini-fill" style="width:${pc}%"></span></div>
+   <div class="statfoot">${s.sub}</div><div class="growth ${['ai','dg','pm'].includes(s.key)?'':'neutral'}">${s.growth}</div>
+  </button>`}).join('');
+ const focuses=[['all','All accounts'],['review','Needs review'],['offline','Offline not feeding'],['website','Website <7 / unrated'],['seo','SEO external / in-house'],['lowspend','Live, low spend <5%'],['new','New adoption']];
+ $('focusButtons').innerHTML=focuses.map(([k,label])=>`<button type="button" class="focus ${state.focus===k?'active':''}" data-focus="${k}" aria-pressed="${state.focus===k}">${label}<b>${n(k)}</b></button>`).join('');
+ let shown=base.filter(a=>focusMatch(a,state.focus));const reviewRank=a=>[a.offline==='configured'?0:1,a.website===null||a.website<7?0:1,a.seo==='Not confirmed'?0:1].join('');
+ shown.sort((a,b)=>{switch(state.sort){case 'account':return a.name.localeCompare(b.name);case 'am':return a.am.localeCompare(b.am)||a.name.localeCompare(b.name);case 'seo':return a.seo.localeCompare(b.seo)||a.name.localeCompare(b.name);case 'website':return (a.website??-1)-(b.website??-1)||a.name.localeCompare(b.name);case 'offline':return ['configured','unknown','none','receiving','na'].indexOf(a.offline)-['configured','unknown','none','receiving','na'].indexOf(b.offline);case 'new':return Number(newFlag(b))-Number(newFlag(a))||a.name.localeCompare(b.name);default:return reviewRank(a).localeCompare(reviewRank(b))||a.name.localeCompare(b.name)}});
+ $('rows').innerHTML=shown.length?shown.map(renderRow).join(''):'<tr><td class="empty" colspan="14">No accounts match this selection. Try clearing one of the filters.</td></tr>';
+ $('count').innerHTML=`Showing <b>${shown.length}</b> of <b>${base.length}</b> filtered accounts · ${records.length} total in this demo`;
+ $('tabCount').textContent=records.length;
+}
+function reset(){for(let id of ['amFilter','typeFilter','crmFilter','seoFilter','offlineFilter'])$(id).value='all';$('search').value='';state.focus='all';state.sort='review';$('sort').value='review';render()}
+function editScore(code){let a=records.find(x=>x.code===code),cell=document.querySelector(`[data-sitecode="${code}"]`);if(!a||!cell)return;const current=a.website??'';cell.innerHTML=`<input type="number" class="scoreedit" min="0" max="10" step="0.1" inputmode="decimal" aria-label="Website rating 0 to 10 for ${esc(a.name)}" value="${current}"> <button class="secondarybtn" style="padding:5px" type="button" data-save="${esc(code)}">Save</button><button class="pencil" data-cancel="${esc(code)}" title="Cancel">×</button><div class="sub">Manual score · 0 to 10</div>`;cell.querySelector('input').focus();cell.querySelector('input').select()}
+function saveScore(code){let a=records.find(x=>x.code===code),cell=document.querySelector(`[data-sitecode="${code}"]`),field=cell?.querySelector('input');if(!a||!field)return;const val=field.value.trim();if(val!==''&&(!Number.isFinite(Number(val))||Number(val)<0||Number(val)>10)){field.setCustomValidity('Enter a number between 0 and 10');field.reportValidity();return}a.oldWebsite=a.website;a.website=val===''?null:Math.round(Number(val)*10)/10;a.siteReview='18 Nov';a.review='18 Nov';render()}
+function csv(){
+ let cols=['Account','Account ID','Account manager','Type','CRM','AI Max status','AI Max enabled Search campaigns','Demand Gen status','Demand Gen live campaigns','PMax status','PMax live campaigns','AI Max Search spend share %','Other Search spend share %','Demand Gen spend share %','PMax spend share %','Other campaign spend share %','Total spend last 30d (ZAR)','Offline conversion status','Offline route','SEO owner','Website rating /10','Last review'];
+ let rows=filteredBase().filter(a=>focusMatch(a,state.focus)).map(a=>[a.name,a.code,a.am,a.type,a.crm,a.ai[0],a.ai[1],a.dg[0],a.dg[1],a.pm[0],a.pm[1],...a.mix,a.spend,a.offline,a.route,a.seo,a.website??'',a.review+' 2026']);
+ let format=r=>r.map(x=>'"'+String(x??'').replace(/"/g,'""')+'"').join(',');let blob=new Blob(['\uFEFF'+[cols,...rows].map(format).join('\r\n')],{type:'text/csv;charset=utf-8'});let url=URL.createObjectURL(blob);let anchor=document.createElement('a');anchor.href=url;anchor.download='ilulalab_product_adoption_pulse_v2_demo.csv';document.body.appendChild(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),1200)
+}
+function mixForPeriod(a,p){
+ let m=[...a.mix];
+ if(p==='7d'){
+  // A small illustrative shift between periods, without allocating spend to inactive products.
+  const shift=a.code.charCodeAt(0)%3+1;
+  if(a.ai[0]==='live'&&m[1]>=shift){m[0]+=shift;m[1]-=shift}
+  if(a.pm[0]==='live'&&m[3]>=2){m[3]-=2;m[1]+=2}
+ }else if(p==='mtd'){
+  if(a.dg[0]==='live'&&m[1]>=2){m[2]+=2;m[1]-=2}
+  if(a.pm[0]==='live'&&m[3]>=1){m[3]-=1;m[1]+=1}
+ }
+ return m;
+}
+function previousMix(a,p){
+ const m=[...mixForPeriod(a,p)];
+ for(const [key,idx,step] of [['ai',0,4],['dg',2,3],['pm',3,5]]){
+  if(a[key][0]!=='live')continue;
+  if(a[key][2]){m[1]+=m[idx];m[idx]=0;continue}
+  const variant=(a.code.charCodeAt(1)+idx)%3===0?-step:step;
+  let prev=Math.max(0,Math.min(m[idx]-variant,m[idx]+m[1]));
+  m[1]+=m[idx]-prev;m[idx]=prev;
+ }
+ return m;
+}
+function renderDetail(){
+ const hash=decodeURIComponent(location.hash||'');const match=hash.match(/^#\/google_ads_customers\/(.+)$/);if(!match)return;
+ let a=records.find(r=>r.code===match[1]);if(!a)return;
+ const p=state.period, m=mixForPeriod(a,p), prev=previousMix(a,p);
+ const periodLabels={'30d':'last 30 days','7d':'last 7 days','mtd':'month to date'};
+ const multipliers={'30d':1,'7d':.235,'mtd':.58};
+ const total=Math.round(a.spend*multipliers[p]);
+ $('detailName').textContent=a.name;
+ $('detailHint').textContent=`${a.code} · ${a.am} · ${a.type==='leadgen'?'Lead generation':'E-commerce'} · Illustrative data`;
+ $('detailPeriodText').textContent='· '+periodLabels[p];
+ $('detailSpend').textContent=money(total);
+ document.querySelectorAll('[data-period]').forEach(x=>x.classList.toggle('active',x.dataset.period===p));
+ $('detailMixBar').innerHTML=m.map((share,i)=>`<div class="${mixChannels[i].className}" style="width:${share}%" title="${mixChannels[i].label}: ${share}%">${share>=9?share+'%':''}</div>`).join('');
+ $('mixLegend').innerHTML=mixChannels.map((c,i)=>`<span class="legend-swatch"><i class="${c.className}"></i>${c.short} <strong>${m[i]}%</strong></span>`).join('');
+ // Place residual rounding difference in the largest bucket so row amounts sum to the total.
+ const amounts=m.map(x=>Math.round(total*x/100));const maxIndex=m.indexOf(Math.max(...m));amounts[maxIndex]+=total-amounts.reduce((s,x)=>s+x,0);
+ $('detailMixRows').innerHTML=mixChannels.map((c,i)=>{const pp=m[i]-prev[i];const cls=pp>0?'up':pp<0?'down':'flat';const delta=pp>0?'+'+pp+' pp':pp<0?pp+' pp':'No change';return `<tr><td><span class="channelname"><i class="${c.className}"></i>${c.label}</span></td><td><strong>${money(amounts[i])}</strong></td><td><strong>${m[i]}%</strong></td><td><span class="delta ${cls}">${delta}</span></td></tr>`}).join('');
+ const facts=[['AI Max',labels[a.ai[0]]+(a.ai[0]==='live'?` · ${a.ai[1]} Search campaign(s)`:'')],['Demand Gen',labels[a.dg[0]]+(a.dg[0]==='live'?` · ${a.dg[1]} live`:'')],['PMax',labels[a.pm[0]]+(a.pm[0]==='live'?` · ${a.pm[1]} live`:'')],['Offline conversion',labels[a.offline]],['Offline conversions via',a.route],['CRM',a.crm],['SEO owner',a.seo],['Website score',a.website===null?'Not rated':a.website.toFixed(1)+'/10'],['Last adoption review',a.review+' 2026']];
+ $('detailFacts').innerHTML=facts.map(([k,v])=>`<div class="fact"><span class="fact-label">${esc(k)}</span><span class="fact-value">${esc(v)}</span></div>`).join('');
+}
+function navigate(){let hash=decodeURIComponent(location.hash||'#/pulse');let m=hash.match(/^#\/google_ads_customers\/(.+)$/);$('portfolioPage').style.display=m?'none':'block';$('detailPage').style.display=m?'block':'none';if(m)renderDetail();window.scrollTo(0,0)}
+populate();render();navigate();
+['amFilter','typeFilter','crmFilter','seoFilter','offlineFilter'].forEach(id=>$(id).addEventListener('change',()=>{state.focus='all';render()}));$('search').addEventListener('input',()=>{state.focus='all';render()});$('sort').addEventListener('change',e=>{state.sort=e.target.value;render()});$('clearBtn').addEventListener('click',reset);$('exportBtn').addEventListener('click',csv);
+document.body.addEventListener('click',e=>{let period=e.target.closest('[data-period]');if(period){state.period=period.dataset.period;renderDetail();return}let filter=e.target.closest('[data-focus]');if(filter){state.focus=state.focus===filter.dataset.focus&&state.focus!=='all'?'all':filter.dataset.focus;render();return}let edit=e.target.closest('[data-edit]');if(edit){editScore(edit.dataset.edit);return}let save=e.target.closest('[data-save]');if(save){saveScore(save.dataset.save);return}let cancel=e.target.closest('[data-cancel]');if(cancel){render();return}let th=e.target.closest('th[data-sort]');if(th){state.sort=th.dataset.sort;$('sort').value=state.sort;render();return}let placeholder=e.target.closest('a[data-placeholder]');if(placeholder)e.preventDefault()});
+$('rows').addEventListener('change',e=>{if(e.target.matches('select[data-seo]')){let a=records.find(x=>x.code===e.target.dataset.seo);if(a){a.seo=e.target.value;a.review='18 Nov';render()}}});$('rows').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('input.scoreedit')){let cell=e.target.closest('[data-sitecode]');saveScore(cell.dataset.sitecode)}else if(e.key==='Escape'&&e.target.matches('input.scoreedit'))render()});window.addEventListener('hashchange',navigate);
+</script>
+</body></html>
